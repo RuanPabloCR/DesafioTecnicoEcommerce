@@ -1,0 +1,63 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# DotCover
+*.dotCover
+
+# NCrunch
+*.ncrunch*
+.*ncrunch*
+_NCrunch_*
+
+# Visual Studio Code
+.vscode/
+
+# Rider
+.idea/
+
+# Logs
+*.log
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Aspire
+**/obj/
+**/bin/
+**/artifacts/
+**/.vs/
+
+# Docker
+**/Dockerfile.*.backup
+
+# Others
+TestResults/
+*.vspscc
+*.vssscc
+*.pdb
+*.cache
+*.dbmdl
+*.bak
+*.backup
+*.tmp
+*.temp
+*.swp
+*.swo
+*.DS_Store
+Thumbs.db
+.vs
