@@ -12,11 +12,14 @@
   </PropertyGroup>
         
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.2.0" />
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.4.1" />
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="9.4.1" />
+    <PackageReference Include="Aspire.Hosting.RabbitMQ" Version="9.4.1" />
   </ItemGroup>
         
   <ItemGroup>
     <ProjectReference Include="..\api\AspireApp2.ServiceDefaults\DesafioTecnicoEcommerce.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\api\MSEstoque\MSEstoque.csproj" />
     <ProjectReference Include="..\api\MsVendas\MsVendas.csproj" />
     <ProjectReference Include="..\gateway\DesafioTecnicoEcommerce.ApiService\DesafioTecnicoEcommerce.ApiGateway.csproj" />
   </ItemGroup>

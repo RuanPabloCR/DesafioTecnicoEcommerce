@@ -1,6 +1,6 @@
 ﻿namespace MsVendas.Domain.Models.Enums
 {
-    public enum PedidoState
+    public enum PedidoStatus
     {
         confirmado,
         enviado,
