@@ -18,10 +18,10 @@
   </ItemGroup>
         
   <ItemGroup>
-    <ProjectReference Include="..\api\AspireApp2.ServiceDefaults\DesafioTecnicoEcommerce.ServiceDefaults.csproj" />
-    <ProjectReference Include="..\api\MSEstoque\MSEstoque.csproj" />
-    <ProjectReference Include="..\api\MsVendas\MsVendas.csproj" />
-    <ProjectReference Include="..\gateway\DesafioTecnicoEcommerce.ApiService\DesafioTecnicoEcommerce.ApiGateway.csproj" />
+    <ProjectReference Include="..\src\gateway\DesafioTecnicoEcommerce.ApiService\DesafioTecnicoEcommerce.ApiGateway.csproj" />
+    <ProjectReference Include="..\src\services\AspireApp2.ServiceDefaults\DesafioTecnicoEcommerce.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\src\services\MSEstoque\MSEstoque.csproj" />
+    <ProjectReference Include="..\src\services\MsVendas\MsVendas.csproj" />
   </ItemGroup>
 
 </Project>

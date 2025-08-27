@@ -1,4 +1,4 @@
-﻿namespace MsVendas.Domain.Models
+﻿namespace MSEstoque.Domain.Models
 {
     public class Carrinho
     {
