@@ -11,9 +11,8 @@ var postgres = builder.AddPostgres("postgres")
     .WithContainerName("ecommerce-postgres");
 
 var postgresdb1 = postgres.AddDatabase("ecommerceAuth");
-
 var postgresdb2 = postgres.AddDatabase("ecommerceEstoque");
-
+var postgresdb3 = postgres.AddDatabase("ecommerceVendas");
 var rabbitMqService = builder.AddRabbitMQ("rabbitmq")
     .WithManagementPlugin()
     .WithImage("rabbitmq:3-management");
@@ -27,6 +26,7 @@ var apiService = builder.AddProject<Projects.DesafioTecnicoEcommerce_ApiGateway>
 
 var msVendas = builder.AddProject<Projects.MsVendas>("msvendas")
     .WithReference(rabbitMqService)
+    .WithReference(postgresdb3)
     .WithHttpEndpoint(name: "vendas-http",port: 6060)
     .WaitFor(rabbitMqService);
 

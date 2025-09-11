@@ -1,41 +1,90 @@
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using MassTransit;
+using shared.messaging;
+using MSEstoque.Application.Consumers;
+using MSEstoque.Application.Services;
+using MSEstoque.Infrastructure;
+using MSEstoque.Application.Controllers;
+using MSEstoque.Infrastructure.Repositories;
+using MSEstoque.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
+using MSEstoque.Application.Interfaces;
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+namespace MSEstoque
 {
-    app.MapOpenApi();
-}
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
+            
+            builder.AddServiceDefaults();
 
-app.UseHttpsRedirection();
+            builder.Services.AddOpenApi();
+            var jwtKey = builder.Configuration["JWT"];
+            builder.Services.AddControllers();
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey ?? "segredo")),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+            builder.Services.AddAuthorization();
+            
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                options.UseNpgsql(builder.Configuration.GetConnectionString("ecommerceEstoque")));
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+        
+            builder.Services.AddHttpClient<VendasHttpClient>(client =>
+            {
+                client.BaseAddress = new Uri(builder.Configuration["Services:VendasApi"] ?? "http://msvendas:6060");
+            });
+            
+            builder.Services.AddScoped<EstoqueRepository>();
+            builder.Services.AddScoped<IProdutoRepository, ProdutosRepository>();
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+            builder.Services.AddScoped<EstoqueService>();
+            builder.Services.AddScoped<PedidoStatusService>();
+            builder.Services.AddScoped<ProdutoService>();
+            
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddLogging();
+            
+            builder.Services.AddRabbitMqMessaging(builder.Configuration, cfg =>
+            {
+                cfg.AddConsumer<PedidoRealizadoConsumer>();
+            });
+            
+            var app = builder.Build();
 
-app.Run();
+            app.MapDefaultEndpoints();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+            if (app.Environment.IsDevelopment())
+            {
+                app.MapOpenApi();
+            }
+
+            app.UseHttpsRedirection();
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.MapProdutosEndpoints();
+
+            app.Run();
+        }
+    }
 }

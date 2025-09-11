@@ -1,4 +1,4 @@
 ﻿namespace MsVendas.Application.DTOs
 {
-    public record ProdutosVerificadosResponse(List<ProdutoEstoqueResponse>? ProdutosDisponiveis, List<ProdutoEstoqueResponse>? ProdutosIndisponiveis);
+    public record ProdutosVerificadosResponse(List<ProdutoEstoqueResponse>? ProdutosDisponiveis, List<ProdutoEstoqueResponse>? ProdutosIndisponiveis, decimal  total);
 }

@@ -3,7 +3,7 @@
     public class Email
     {
         private String EmailAddress { get; }
-        public Email(String emailAddress) 
+        public Email(String emailAddress)
         {
             if (string.IsNullOrEmpty(emailAddress))
             {
@@ -11,6 +11,6 @@
             }
             EmailAddress = emailAddress;
         }
-  
+
     }
 }

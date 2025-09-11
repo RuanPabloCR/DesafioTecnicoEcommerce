@@ -1,11 +1,46 @@
-using DesafioTecnicoEcommerce.ApiGateway.Data;
-using DesafioTecnicoEcommerce.ApiGateway.Models;
+using DesafioTecnicoEcommerce.ApiGateway.Application.Interfaces;
+using DesafioTecnicoEcommerce.ApiGateway.Infrastructure.Data;
+using DesafioTecnicoEcommerce.ApiGateway.Infrastructure.JWT;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
+
+var jwtKey = builder.Configuration["JWT"];
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+
+.AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
+});
+
+builder.Services.AddSingleton<ITokenService>(sp =>
+    new TokenService(jwtKey));
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Cliente", policy => policy.RequireRole("Cliente"));
+    options.AddPolicy("Empresa", policy => policy.RequireRole("Empresa"));
+});
+
+builder.Services.AddHttpContextAccessor();
 
 builder.AddNpgsqlDbContext<GatewayDbContext>("ecommerceAuth");
 
@@ -14,7 +49,6 @@ builder.Services.AddReverseProxy()
 
 builder.Services.AddProblemDetails();
 
-builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -22,8 +56,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAuthentication();
 builder.Services.AddAuthorization();
 
-builder.Services.AddIdentityApiEndpoints<User>()
-    .AddEntityFrameworkStores<GatewayDbContext>();
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
@@ -37,7 +69,6 @@ app.UseExceptionHandler();
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
     app.UseSwagger();
     app.UseSwaggerUI();
     app.MapSwagger();
@@ -45,14 +76,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapReverseProxy();
-
-app.MapGet("/hello-world", () =>
-{
-    return Results.Ok("Hello, World!");
-})
-.WithName("Hello");
-
-app.MapIdentityApi<User>();
 
 app.MapDefaultEndpoints();
 

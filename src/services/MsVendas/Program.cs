@@ -1,7 +1,12 @@
-using MassTransit;
-using MsVendas.Application.Handlers;
-using shared.Events;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using MsVendas.Application.Interfaces;
+using MsVendas.Application.Services;
+using MsVendas.Infrastructure;
+using MsVendas.Infrastructure.Data;
+using MsVendas.Infrastructure.Repositories;
 using shared.messaging;
+using System.Text;
 
 namespace MsVendas
 {
@@ -12,18 +17,45 @@ namespace MsVendas
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.AddServiceDefaults();
-
+            var jwtKey = builder.Configuration["JWT"] ?? throw new InvalidOperationException("JWT Key not found");
             builder.Services.AddControllers();
-            
-            builder.Services.AddOpenApi();
-            builder.Services.AddRabbitMqMessaging(builder.Configuration, cfg =>
+            builder.Services.AddAuthentication(options =>
             {
-                //cfg.AddPublishMessage<PedidoRealizadoEvent>();
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+
+            .AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
             });
 
-            builder.Services.AddHttpClient<Infrastructure.EstoqueHttpClient>();
-            builder.Services.AddScoped<Application.Services.ProdutosEstoqueService>();
-            builder.Services.AddScoped<PedidoHandler>();
+            builder.AddNpgsqlDbContext<VendasDbContext>("ecommerceVendas");
+
+            builder.Services.AddOpenApi();
+
+            
+
+            builder.Services.AddRabbitMqMessaging(builder.Configuration, cfg =>
+            {
+                
+            });
+
+            builder.Services.AddHttpClient<EstoqueHttpClient>();
+            builder.Services.AddScoped<ProdutosEstoqueService>();
+
+            builder.Services.AddScoped<IPedidoService, PedidoService>();
+            builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
+
+            builder.Services.AddHttpContextAccessor();
 
             var app = builder.Build();
 

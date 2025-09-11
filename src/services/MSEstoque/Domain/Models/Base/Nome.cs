@@ -2,13 +2,13 @@
 {
     public class Nome
     {
-        private string _name { get; }
+        public string Name { get; private set; }
         public Nome(string name)
         {
             bool isValid = NameValidation(name);
             if (isValid)
             {
-                _name = name;
+                Name = name;
             }
             else
             {
