@@ -4,9 +4,9 @@ using MSEstoque.Application.Services;
 
 namespace MSEstoque.Application.Controllers
 {
-    public static class MapProdutosRoutes
+    public static class ProdutoEndpointsExtensions
     {
-        public static void MapProdutosEndpoints(this WebApplication app)
+        public static void AddProdutosRoutes(this WebApplication app)
         {
             var produtosGroup = app.MapGroup("/estoque")
                 .RequireAuthorization();

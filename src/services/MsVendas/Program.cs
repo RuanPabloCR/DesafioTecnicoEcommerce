@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using MsVendas.Application.Controllers;
 using MsVendas.Application.Interfaces;
 using MsVendas.Application.Services;
 using MsVendas.Infrastructure;
@@ -38,15 +39,21 @@ namespace MsVendas
                 };
             });
 
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Cliente", policy => policy.RequireRole("Cliente"));
+                options.AddPolicy("Empresa", policy => policy.RequireRole("Empresa"));
+            });
+
             builder.AddNpgsqlDbContext<VendasDbContext>("ecommerceVendas");
 
             builder.Services.AddOpenApi();
 
-            
+
 
             builder.Services.AddRabbitMqMessaging(builder.Configuration, cfg =>
             {
-                
+
             });
 
             builder.Services.AddHttpClient<EstoqueHttpClient>();
@@ -70,7 +77,7 @@ namespace MsVendas
 
             app.UseAuthorization();
 
-
+            app.AddPedidosRoutes();
             app.MapControllers();
 
             app.Run();

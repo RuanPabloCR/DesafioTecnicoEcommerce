@@ -2,7 +2,7 @@
 {
     public class CPF
     {
-        private string Cpf { get; }
+        public string Cpf { get; set; }
         public CPF(string cpf)
         {
             if (String.IsNullOrEmpty(cpf) || (cpf.Length != 11))

@@ -4,14 +4,13 @@ using MsVendas.Domain.Models.Enums;
 
 namespace MsVendas.Application.Controllers
 {
-    public static class MapPedidosRoutes
+    public static class PedidoEndpointsExtensions
     {
         public static void AddPedidosRoutes(this WebApplication app)
         {
             var pedidosGroup = app.MapGroup("/pedidos")
                 .RequireAuthorization();
 
-            // Cria um grupo específico para operações internas entre microserviços que não requer autenticação
             var pedidosInternoGroup = app.MapGroup("/api/interno/pedidos");
 
             pedidosGroup.MapPost("/comprar", async (PedidoRequest pedidoRequest,

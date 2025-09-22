@@ -11,8 +11,8 @@ namespace DesafioTecnicoEcommerce.ApiGateway.Models
         public Nome Name { get; set; }
         public Email Email { get; set; }
         public DateTime DataCriacao { get; set; }
-
-        public User(Nome nome, Email email, Password password)
+        protected User() { }
+        protected User(Nome nome, Email email, Password password)
         {
             Id = Guid.NewGuid();
             DataCriacao = DateTime.UtcNow;

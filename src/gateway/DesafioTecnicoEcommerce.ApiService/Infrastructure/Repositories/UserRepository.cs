@@ -3,6 +3,7 @@ using DesafioTecnicoEcommerce.ApiGateway.Domain.Models;
 using DesafioTecnicoEcommerce.ApiGateway.Infrastructure.Data;
 using DesafioTecnicoEcommerce.ApiGateway.Models;
 using DesafioTecnicoEcommerce.ApiGateway.Models.Base;
+using Microsoft.EntityFrameworkCore;
 
 namespace DesafioTecnicoEcommerce.ApiGateway.Infrastructure.Repositories
 {
@@ -13,8 +14,10 @@ namespace DesafioTecnicoEcommerce.ApiGateway.Infrastructure.Repositories
         {
             _gatewayDbContext = gatewayDbContext;
         }
+        // Lembrar de utilizar User!!
         public async Task AddClienteAsync(Cliente cliente)
         {
+            // to salvando roles como null, consertar!!
             await _gatewayDbContext.Clientes.AddAsync(cliente);
             await _gatewayDbContext.SaveChangesAsync();
         }
@@ -25,7 +28,8 @@ namespace DesafioTecnicoEcommerce.ApiGateway.Infrastructure.Repositories
         }
         public async Task<Cliente?> GetClienteByEmailAsync(Email email)
         {
-            return await _gatewayDbContext.Clientes.FindAsync(email);
+            return await _gatewayDbContext.Clientes
+        .FirstOrDefaultAsync(c => c.Email == email);
         }
     }
 }

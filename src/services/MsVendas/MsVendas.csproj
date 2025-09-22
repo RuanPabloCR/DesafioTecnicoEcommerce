@@ -24,8 +24,4 @@
     <ProjectReference Include="..\AspireApp2.ServiceDefaults\DesafioTecnicoEcommerce.ServiceDefaults.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Domain\Interfaces\" />
-  </ItemGroup>
-
 </Project>

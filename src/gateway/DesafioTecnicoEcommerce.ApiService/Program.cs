@@ -1,6 +1,9 @@
+using DesafioTecnicoEcommerce.ApiGateway.Application.Controllers;
 using DesafioTecnicoEcommerce.ApiGateway.Application.Interfaces;
+using DesafioTecnicoEcommerce.ApiGateway.Application.Services;
 using DesafioTecnicoEcommerce.ApiGateway.Infrastructure.Data;
 using DesafioTecnicoEcommerce.ApiGateway.Infrastructure.JWT;
+using DesafioTecnicoEcommerce.ApiGateway.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -10,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
-var jwtKey = builder.Configuration["JWT"];
+var jwtKey = builder.Configuration["JWT"] ?? "segredo";
 
 builder.Services.AddAuthentication(options =>
 {
@@ -33,6 +36,8 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddSingleton<ITokenService>(sp =>
     new TokenService(jwtKey));
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddSingleton<PasswordEncryption>();
 
 builder.Services.AddAuthorization(options =>
 {
@@ -74,7 +79,7 @@ if (app.Environment.IsDevelopment())
     app.MapSwagger();
 
 }
-
+app.MapAuthEndpoints();
 app.MapReverseProxy();
 
 app.MapDefaultEndpoints();

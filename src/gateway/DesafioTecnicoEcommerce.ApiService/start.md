@@ -1,0 +1,1 @@
+dotnet ef migrations add InitialCreate -c GatewayDbContext -o Infrastructure/Data/Migrations
