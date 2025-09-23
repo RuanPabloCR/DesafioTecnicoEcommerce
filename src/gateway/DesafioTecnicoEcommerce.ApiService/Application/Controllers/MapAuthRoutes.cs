@@ -29,9 +29,8 @@ namespace DesafioTecnicoEcommerce.ApiGateway.Application.Controllers
                 {
                     return Results.BadRequest("Error creating the account.");
                 }
-                
-                var password = new Password(clienteRequest.Senha);
-                var hashedPassword = passwordEncryption.Hash(password);
+               
+                var hashedPassword = passwordEncryption.Hash(clienteRequest.Senha);
                 var nome = new Nome(clienteRequest.Nome);
                 var cpf = new CPF(clienteRequest.CPF);
 

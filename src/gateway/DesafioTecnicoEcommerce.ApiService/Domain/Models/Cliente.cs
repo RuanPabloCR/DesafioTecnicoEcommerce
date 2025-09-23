@@ -10,6 +10,7 @@ namespace DesafioTecnicoEcommerce.ApiGateway.Domain.Models
         public Cliente(Nome nome, Email email, Password password, CPF cpf) : base(nome, email, password)
         {
             CPF = cpf;
+            Roles = ["Cliente"];
         }
 
     }

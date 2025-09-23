@@ -9,13 +9,13 @@ namespace DesafioTecnicoEcommerce.ApiGateway.Application.Services
         {
             _workfactor = workfactor;
         }
-        public Password Hash(Password password)
+        public Password Hash(string password)
         {
-            if (string.IsNullOrEmpty(password.Value))
+            if (string.IsNullOrEmpty(password))
                 throw new ArgumentException("Password cannot be null or empty", nameof(password));
-            if (string.IsNullOrWhiteSpace(password.Value))
+            if (string.IsNullOrWhiteSpace(password))
                 throw new ArgumentException("Password cannot be whitespace", nameof(password));
-            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(password.Value, _workfactor);
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(password, _workfactor);
             return new Password(hashedPassword);
         }
         public bool Verify(Password password, Password other)

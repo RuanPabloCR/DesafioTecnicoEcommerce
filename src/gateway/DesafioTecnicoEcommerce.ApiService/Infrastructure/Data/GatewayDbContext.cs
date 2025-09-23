@@ -29,6 +29,7 @@ namespace DesafioTecnicoEcommerce.ApiGateway.Infrastructure.Data
             var cnpjConverter = new ValueConverter<CNPJ, string>(
                 v => v.Cnpj,
                 v => new CNPJ(v));
+
             modelBuilder.Entity<Cliente>().ToTable("Clientes");
             modelBuilder.Entity<Cliente>(entity =>
             {

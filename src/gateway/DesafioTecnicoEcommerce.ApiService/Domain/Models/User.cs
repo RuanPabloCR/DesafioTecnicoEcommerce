@@ -16,6 +16,10 @@ namespace DesafioTecnicoEcommerce.ApiGateway.Models
         {
             Id = Guid.NewGuid();
             DataCriacao = DateTime.UtcNow;
+            Name = nome;
+            Email = email;
+            Senha = password;
+            Roles = Array.Empty<string>();
         }
     }
 }

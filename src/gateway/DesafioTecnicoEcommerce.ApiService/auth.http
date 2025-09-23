@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
   "Nome": "João da Silva",
-  "Email": "joao@email.com",
+  "Email": "joa21234121o@email.com",
   "Senha": "senha123",
   "CPF": "12345678909"
 }
@@ -16,7 +16,7 @@ POST http://localhost:8080/Cliente/login
 Content-Type: application/json
 
 {
-  "Email": "joao@email.com",
+  "Email": "joa21234121o@email.com",
   "Senha": "senha123"
 }
 
