@@ -9,7 +9,7 @@ namespace MsVendas.Application.Controllers
         public static void AddPedidosRoutes(this WebApplication app)
         {
             var pedidosGroup = app.MapGroup("/pedidos")
-                .RequireAuthorization();
+                .RequireAuthorization("Cliente");
 
             var pedidosInternoGroup = app.MapGroup("/api/interno/pedidos");
 

@@ -3,11 +3,11 @@ using MSEstoque.Domain.Models;
 
 namespace MSEstoque.Infrastructure.Data
 {
-    public class AppDbContext : DbContext
+    public class EstoqueDbContext : DbContext
     {
         public DbSet<Produto> Produtos { get; set; }
         
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        public EstoqueDbContext(DbContextOptions<EstoqueDbContext> options) : base(options)
         {
         }
         

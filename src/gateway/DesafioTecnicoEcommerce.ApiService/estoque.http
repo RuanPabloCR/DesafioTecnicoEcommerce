@@ -1,8 +1,8 @@
 # For more info on HTTP files go to https://aka.ms/vs/httpfile
-@jwt_token =
+#@jwt_token =
 ### Cadastrar novo produto no estoque
 POST http://localhost:8080/estoque-api/estoque/cadastrar
-Authorization: Bearer {{jwt_token}}
+#Authorization: Bearer {{jwt_token}}
 Content-Type: application/json
 
 {
@@ -16,7 +16,7 @@ Content-Type: application/json
 
 ### Listar produtos do estoque (com paginação opcional)
 GET http://localhost:8080/estoque-api/estoque/produtos?page=1
-Authorization: Bearer {{jwt_token}}
+#Authorization: Bearer {{jwt_token}}
 Accept: application/json
 
 ###

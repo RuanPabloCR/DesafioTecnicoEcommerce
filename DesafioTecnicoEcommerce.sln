@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.0.11012.119 d18.0
+VisualStudioVersion = 18.0.11012.119
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesafioTecnicoEcommerce.AppHost", "DesafioTecnicoEcommerce.AppHost\DesafioTecnicoEcommerce.AppHost.csproj", "{9CBC1628-00B4-000F-BBA4-AA8F06DB0C35}"
 EndProject

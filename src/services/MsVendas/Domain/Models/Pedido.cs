@@ -9,7 +9,7 @@ namespace MsVendas.Domain.Models
         public PedidoStatus Status { get; set; }
         public ICollection<Produto> Produtos { get; private set; } = new List<Produto>();
         public DateTime CreatedAt { get; set; }
-       
+        public Pedido() { }
         public Pedido(Guid id, Guid clienteId, PedidoStatus status, DateTime createdAt, ICollection<Produto> produtos)
         {
             Id = id;

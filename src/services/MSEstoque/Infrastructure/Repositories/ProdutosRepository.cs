@@ -8,8 +8,8 @@ namespace MSEstoque.Infrastructure.Repositories
 {
     public class ProdutosRepository : IProdutoRepository
     {
-        private readonly AppDbContext _context;
-        public ProdutosRepository(AppDbContext context)
+        private readonly EstoqueDbContext _context;
+        public ProdutosRepository(EstoqueDbContext context)
         {
             _context = context;
         }

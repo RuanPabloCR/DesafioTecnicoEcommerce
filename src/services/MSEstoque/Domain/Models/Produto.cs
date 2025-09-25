@@ -10,6 +10,7 @@ namespace MSEstoque.Domain.Models
         public bool Available { get; set; }
         public int Quantidade { get; set; }
         public Descricao ProdutoDescricao { get; private set; }
+        public Produto() { }
         public Produto(Guid id, Nome nome, decimal preco, int quantidade, Descricao descricao, bool available = false)
         {
             Id = id;

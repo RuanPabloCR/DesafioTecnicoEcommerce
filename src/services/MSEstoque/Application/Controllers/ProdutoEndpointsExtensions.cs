@@ -8,8 +8,8 @@ namespace MSEstoque.Application.Controllers
     {
         public static void AddProdutosRoutes(this WebApplication app)
         {
-            var produtosGroup = app.MapGroup("/estoque")
-                .RequireAuthorization();
+            var produtosGroup = app.MapGroup("/estoque");
+                //.RequireAuthorization();
 
             produtosGroup.MapPost("/cadastrar", async (ProdutoRequest produtoRequest,
                 ProdutoService cadastrarProdutoService) =>

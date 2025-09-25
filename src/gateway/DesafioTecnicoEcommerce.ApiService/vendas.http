@@ -1,0 +1,47 @@
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+@jwt_token =
+### Criar um novo pedido (comprar)
+POST http://localhost:8080/vendas-api/pedidos/comprar
+Authorization: Bearer {{jwt_token}}
+Content-Type: application/json
+
+{
+  "itens": [
+    {
+      "produtoId": "987e6543-e21b-12d3-a456-426614174000",
+      "quantidade": 2,
+      "precoUnitario": 100.0
+    }
+  ]
+}
+
+###
+
+### Listar todos os pedidos do cliente autenticado
+GET http://localhost:8080/vendas-api/pedidos/
+Authorization: Bearer {{jwt_token}}
+Accept: application/json
+
+###
+
+### Obter detalhes de um pedido por ID
+GET http://localhost:8080/vendas-api/pedidos/{{id}}
+Authorization: Bearer {{jwt_token}}
+Accept: application/json
+
+###
+
+### Atualizar status de um pedido (interno)
+PUT http://localhost:8080/vendas-api/api/interno/pedidos/{{id}}/status
+Authorization: Bearer {{jwt_token}}
+Content-Type: application/json
+
+{
+  "novoStatus": 2
+}
+
+###
+
+# Response
+
+

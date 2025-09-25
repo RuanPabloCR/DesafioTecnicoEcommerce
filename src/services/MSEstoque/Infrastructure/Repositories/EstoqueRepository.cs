@@ -5,8 +5,8 @@ namespace MSEstoque.Infrastructure.Repositories
 {
     public class EstoqueRepository
     {
-        private readonly AppDbContext AppDbContext;
-        public EstoqueRepository(AppDbContext appDbContext)
+        private readonly EstoqueDbContext AppDbContext;
+        public EstoqueRepository(EstoqueDbContext appDbContext)
         {
             AppDbContext = appDbContext;
         }

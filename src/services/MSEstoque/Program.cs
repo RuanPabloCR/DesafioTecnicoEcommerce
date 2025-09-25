@@ -49,7 +49,7 @@ namespace MSEstoque
                 options.AddPolicy("Empresa", policy => policy.RequireRole("Empresa"));
             });
 
-            builder.Services.AddDbContext<AppDbContext>(options =>
+            builder.Services.AddDbContext<EstoqueDbContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("ecommerceEstoque")));
 
 
